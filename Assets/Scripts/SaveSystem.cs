@@ -6,15 +6,7 @@ public static class SaveSystem
     public static void SaveData(SpawnableObject[] spawnableObjects) {
         SpawnableObjectDataSets data = Convert(spawnableObjects);
 
-        string path;
-
-        #if UNITY_EDITOR
-            path = Path.Combine(Application.dataPath, "spawnableData.json");
-        #else 
-            path = Path.Combine(Application.persistentDataPath, "spawnableData.json");
-        #endif
-
-
+        string path = GetPath();
         string json = JsonUtility.ToJson(data, true);
 
         File.WriteAllText(path, json);
@@ -37,14 +29,7 @@ public static class SaveSystem
     public static SpawnableObjectDataSets LoadData() {
         SpawnableObjectDataSets data;
 
-        string path;
-
-        #if UNITY_EDITOR
-            path = Path.Combine(Application.dataPath, "spawnableData.json");
-        #else 
-            path = Path.Combine(Application.persistentDataPath, "spawnableData.json");
-        #endif
-
+        string path = GetPath();
         string json = File.ReadAllText(path);
 
         data = JsonUtility.FromJson<SpawnableObjectDataSets>(json);
@@ -53,14 +38,16 @@ public static class SaveSystem
     }
 
     public static void DeleteData() {
-        string path;
-
-        #if UNITY_EDITOR
-            path = Path.Combine(Application.dataPath, "spawnableData.json");
-        #else 
-            path = Path.Combine(Application.persistentDataPath, "spawnableData.json");
-        #endif
+        string path = GetPath();
 
         File.Delete(path);
+    }
+
+    private static string GetPath() {
+        // #if UNITY_EDITOR
+        //     return  Path.Combine(Application.dataPath, "spawnableData.json");
+        // #else 
+            return Path.Combine(Application.persistentDataPath, "spawnableData.json");
+        // #endif
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 
 public class SpawnManager : MonoBehaviour
@@ -29,7 +30,7 @@ public class SpawnManager : MonoBehaviour
 
         if(raycastManager.Raycast(touch.position, hits)) {
             if(touch.phase == TouchPhase.Began && !spawnedObject) {
-                
+
                 if(Physics.Raycast(ray, out hit)) {
                     SpawnPrefab(hits[0].pose.position, hits[0].pose.rotation);
                 }
