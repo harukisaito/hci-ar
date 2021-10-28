@@ -672,7 +672,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1635468347}
         m_TargetAssemblyTypeName: SpawnableObjectManager, Assembly-CSharp
-        m_MethodName: DeleteObjects
+        m_MethodName: ClearAwayObjects
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
