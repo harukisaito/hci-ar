@@ -56,7 +56,16 @@ public class SpawnableObjectManager : MonoBehaviour
         }
     }
 
+    public void ClearAwayObjects() {
+        foreach(var obj in spawnedObjects) {
+            Destroy(obj);
+        }
+    }
+
     public void DeleteObjects() {
+        foreach(var obj in spawnedObjects) {
+            Destroy(obj);
+        }
         SaveSystem.DeleteData();
     }
 
