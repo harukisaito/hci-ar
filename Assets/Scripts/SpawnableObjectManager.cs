@@ -24,11 +24,12 @@ public class SpawnableObjectManager : MonoBehaviour
         spawnedObject = null;
     }
 
-    public void SpawnObject(Vector3 pos, Quaternion rot) {
+    public GameObject SpawnObject(Vector3 pos, Quaternion rot) {
         GameObject spawnedGameobject = 
             Instantiate(spawnablePrefab, pos, rot, transform);
         spawnedObject = spawnedGameobject.GetComponent<SpawnableObject>();
         spawnedObjects.Add(spawnedObject);
+        return spawnedGameobject;
     }
 
     public void SaveObjects() {
