@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     public Camera arCamera;
     public SwipeDetector swipeDetector;
     public TapDetector tapDetector;
+    public ClickDetector clickDetector;
 
     public Inputs inputType;
 
@@ -20,7 +21,12 @@ public class InputManager : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Start() {
+        inputType = Inputs.Click;
+        SetInputUIText();
+    }
+
+    private void Update()
     {
         switch(inputType) {
             case Inputs.Tap:
@@ -29,12 +35,15 @@ public class InputManager : MonoBehaviour
             case Inputs.Swipe: 
                 swipeDetector.SwipeUpdate();
                 break;
+            case Inputs.Click: 
+                clickDetector.ClickUpdate();
+                break;
         }
     }
 
     // referenced in button
     public void ChangeInputType() {
-        if(inputType == Inputs.Swipe) {
+        if(inputType == Inputs.Click) {
             inputType = (Inputs)0;
         }
         else {
@@ -42,10 +51,17 @@ public class InputManager : MonoBehaviour
             inputIndex++;
             inputType = (Inputs)inputIndex;
         }
+
+        SetInputUIText();
+    }
+
+    private void SetInputUIText() {
+        UIManager.Instance.SetInputText(inputType.ToString());
     }
 }
 
 public enum Inputs {
     Tap,
-    Swipe
+    Swipe,
+    Click
 }

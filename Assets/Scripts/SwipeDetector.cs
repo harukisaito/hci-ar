@@ -8,6 +8,7 @@ public class SwipeDetector : MonoBehaviour
     private Vector2 fingerDownPosition;
     private Vector2 fingerUpPosition;
     private Vector3 worldPosition;
+    private Quaternion worldRotation;
 
     [SerializeField]
     private float minDistanceForSwipe = 20f;
@@ -27,6 +28,7 @@ public class SwipeDetector : MonoBehaviour
             {
                 fingerDownPosition = touch.position;
                 worldPosition = InputManager.Instance.arCamera.ScreenToWorldPoint(touch.position);
+                worldRotation = InputManager.Instance.arCamera.transform.rotation;
                 DetectSwipe();
             }
         }
@@ -51,6 +53,7 @@ public class SwipeDetector : MonoBehaviour
         SwipeData swipeData = new SwipeData()
         {
             WorldPosition = worldPosition,
+            WorldRotation = worldRotation,
             StartPosition = fingerDownPosition,
             EndPosition = fingerUpPosition
         };
@@ -62,6 +65,7 @@ public class SwipeDetector : MonoBehaviour
 public struct SwipeData
 {
     public Vector3 WorldPosition;
+    public Quaternion WorldRotation;
     public Vector2 StartPosition;
     public Vector2 EndPosition;
 }
