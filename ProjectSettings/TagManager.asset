@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Spawnable
+  - Cube
   layers:
   - Default
   - TransparentFX

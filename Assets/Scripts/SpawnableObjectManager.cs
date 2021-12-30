@@ -6,6 +6,7 @@ public class SpawnableObjectManager : MonoBehaviour
 {
     public static SpawnableObjectManager Instance;
 
+    public Transform spawnedObjContainer;
     [SerializeField] private GameObject spawnablePrefab;
 
     private List<SpawnableObject> spawnedObjects = new List<SpawnableObject>();
@@ -26,8 +27,10 @@ public class SpawnableObjectManager : MonoBehaviour
 
     public GameObject SpawnObject(Vector3 pos, Quaternion rot) {
         GameObject spawnedGameobject = 
-            Instantiate(spawnablePrefab, pos, rot, transform);
+            Instantiate(spawnablePrefab, pos, rot, spawnedObjContainer);
+
         spawnedObject = spawnedGameobject.GetComponent<SpawnableObject>();
+        spawnedObject.transform.GetChild(0).tag = "Cube";
         spawnedObjects.Add(spawnedObject);
         return spawnedGameobject;
     }

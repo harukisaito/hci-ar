@@ -8,10 +8,10 @@ public class TapDetector : MonoBehaviour
 {
     public UnityAction<TapData> OnTap;
 
-    [SerializeField] private ARRaycastManager raycastManager;
+    // [SerializeField] private ARRaycastManager raycastManager;
 
-    private List<ARRaycastHit> hits = new List<ARRaycastHit>();
-    private bool spawnedObject;
+    // private List<ARRaycastHit> hits = new List<ARRaycastHit>();
+    // private bool spawnedObject;
 
     public void TapUpdate()
     {
@@ -24,27 +24,29 @@ public class TapDetector : MonoBehaviour
         RaycastHit hit;
         Ray ray = InputManager.Instance.arCamera.ScreenPointToRay(touch.position);
 
-        if(raycastManager.Raycast(touch.position, hits)) {
-            if(touch.phase == TouchPhase.Began && !spawnedObject) {
-
-                if(Physics.Raycast(ray, out hit)) {
-                    SendTap(hits[0].pose.position, hits[0].pose.rotation);
-                }
-
-            }
-
-            if(touch.phase == TouchPhase.Ended) {
-                spawnedObject = false;
+        if(touch.phase == TouchPhase.Began) {
+            if(Physics.Raycast(ray, out hit)) {
+                SendTap
+                (
+                    hit.point,
+                    hit.transform.rotation, 
+                    hit.normal, 
+                    hit.collider.gameObject
+                );
             }
         }
     }
 
-    private void SendTap(Vector3 pos, Quaternion rot)
+    private void SendTap(Vector3 pos, Quaternion rot, Vector3 normal, GameObject clickedObj)
     {
         TapData tapData = new TapData()
         {
             Position = pos,
-            Rotation = rot
+            Rotation = rot,
+            Normal = normal,
+            ClickedObj = clickedObj,
+            ClickedObjPosition = clickedObj.transform.position,
+            IsCube = clickedObj.tag == "Cube"
         };
         OnTap.Invoke(tapData);
     }
@@ -54,4 +56,8 @@ public struct TapData
 {
     public Vector3 Position;
     public Quaternion Rotation;
+    public Vector3 Normal;
+    public GameObject ClickedObj;
+    public Vector3 ClickedObjPosition;
+    public bool IsCube;
 }

@@ -11,10 +11,6 @@ public class SpawnManager : MonoBehaviour
 
     private void Start() {
         throwForce = 1f;
-
-        InputManager.Instance.tapDetector.OnTap += SpawnPrefab;
-        InputManager.Instance.swipeDetector.OnSwipe += SpawnAndThrowPrefab;
-        InputManager.Instance.clickDetector.OnClick += SpawnPrefab;
     }
 
     // referenced by slider
@@ -23,19 +19,44 @@ public class SpawnManager : MonoBehaviour
         throwForce = value;
     }
 
+    // Tap
     private void SpawnPrefab(TapData data) {
-        GameObject obj = SpawnableObjectManager.Instance.SpawnObject(data.Position, data.Rotation);
+        Vector3 spawnPos;
+        if(data.IsCube) 
+        {
+            spawnPos = data.ClickedObjPosition + data.Normal * 0.1f; // because of scaling
+        }
+        else 
+        {
+            spawnPos = data.Position;
+        }
+
+        GameObject obj = SpawnableObjectManager.Instance.SpawnObject(spawnPos, data.Rotation);
         spawnEffect.ApplyAnimationEffect(obj);
-        spawnEffect.ApplyVibrationEffectAfterDelay(0.25f);
     }
 
+
+
+    // Click 
     private void SpawnPrefab(ClickData data) {
-        GameObject obj = SpawnableObjectManager.Instance.SpawnObject(data.Position, data.Rotation);
+        Vector3 spawnPos;
+        if(data.IsCube) 
+        {
+            spawnPos = data.ClickedObjPosition + data.Normal;
+        }
+        else 
+        {
+            spawnPos = data.Position;
+        }
+
+        GameObject obj = SpawnableObjectManager.Instance.SpawnObject(spawnPos, data.Rotation);
         obj.transform.localScale = Vector3.one;
         spawnEffect.ApplyAnimationEffect(obj);
-        spawnEffect.ApplyVibrationEffectAfterDelay(0.25f);
     }
 
+
+
+    // Swipe
     private void SpawnAndThrowPrefab(SwipeData data) {
         GameObject obj = SpawnableObjectManager.Instance.SpawnObject(data.WorldPosition, Quaternion.identity);
         Rigidbody rigidbody = obj.AddComponent<Rigidbody>();
@@ -52,4 +73,20 @@ public class SpawnManager : MonoBehaviour
         throwDirection = yRotation * throwDirection;
         rigidbody.velocity = throwDirection * throwForce;
     }
+
+
+    public void AddListeners() 
+    {
+        InputManager.Instance.tapDetector.OnTap += SpawnPrefab;
+        InputManager.Instance.swipeDetector.OnSwipe += SpawnAndThrowPrefab;
+        InputManager.Instance.clickDetector.OnClick += SpawnPrefab;
+    }
+
+    public void RemoveListeners() 
+    {
+        InputManager.Instance.tapDetector.OnTap -= SpawnPrefab;
+        InputManager.Instance.swipeDetector.OnSwipe -= SpawnAndThrowPrefab;
+        InputManager.Instance.clickDetector.OnClick -= SpawnPrefab;
+    }
+
 }
