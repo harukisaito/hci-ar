@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class ClickDetector : MonoBehaviour
 {
@@ -10,6 +11,11 @@ public class ClickDetector : MonoBehaviour
     public void ClickUpdate()
     {
         if(!Input.GetMouseButtonDown(0)) 
+        {
+            return;
+        }
+
+        if(EventSystem.current.IsPointerOverGameObject()) 
         {
             return;
         }

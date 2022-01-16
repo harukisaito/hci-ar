@@ -44,7 +44,7 @@ public class SpawnManager : MonoBehaviour
         {
             spawnPos = data.ClickedObjPosition + data.Normal;
         }
-        else 
+        else
         {
             spawnPos = data.Position;
         }
@@ -74,15 +74,46 @@ public class SpawnManager : MonoBehaviour
         rigidbody.velocity = throwDirection * throwForce;
     }
 
+    private void EraseObject(TapData data) 
+    {
+        if(!data.IsCube) 
+        {
+            return;
+        }
 
-    public void AddListeners() 
+        Destroy(data.ClickedObj);
+    }
+
+    private void EraseObject(ClickData data) 
+    {
+        if(!data.IsCube) 
+        {
+            return;
+        }
+
+        Destroy(data.ClickedObj);
+    }
+
+    public void AddEraseListeners() 
+    {
+        InputManager.Instance.tapDetector.OnTap += EraseObject;
+        InputManager.Instance.clickDetector.OnClick += EraseObject;
+    }
+
+    public void RemoveEraseListeners() 
+    {
+        InputManager.Instance.tapDetector.OnTap -= EraseObject;
+        InputManager.Instance.clickDetector.OnClick -= EraseObject;
+    }
+
+    public void AddCreateListeners() 
     {
         InputManager.Instance.tapDetector.OnTap += SpawnPrefab;
         InputManager.Instance.swipeDetector.OnSwipe += SpawnAndThrowPrefab;
         InputManager.Instance.clickDetector.OnClick += SpawnPrefab;
     }
 
-    public void RemoveListeners() 
+    public void RemoveCreateListeners() 
     {
         InputManager.Instance.tapDetector.OnTap -= SpawnPrefab;
         InputManager.Instance.swipeDetector.OnSwipe -= SpawnAndThrowPrefab;

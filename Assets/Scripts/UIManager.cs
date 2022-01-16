@@ -20,17 +20,32 @@ public class UIManager : MonoBehaviour
     public Button eraseButton;
     public Button otherButton;
 
+    [Header("Button Sprites")]
+    public Sprite selectedCreateSprite;
+    public Sprite selectedFormSprite;
+    public Sprite selectedEraseSprite;
+    public Sprite unselectedCreateSprite;
+    public Sprite unselectedFormSprite;
+    public Sprite unselectedEraseSprite;
+
 
     [Header("Pop Ups")]
     public GameObject colorPopUp;
+    public GameObject otherPopUp;
 
 
     [Header("Color")] 
     public Image colorCircle;
 
 
+    private Image createImage;
+    private Image formImage;
+    private Image eraseImage;
+
+
 
     private bool showColorPopUp;
+    private bool showOtherPopUp;
 
 
 
@@ -45,7 +60,9 @@ public class UIManager : MonoBehaviour
 
     private void Start() {
         ShowColorPopUp(false);
+        ShowOtherPopUp(false);
         AddButtonListeners();
+        GetImageComponentsOfButtons();
     }
 
     public void SetInputText(string text) {
@@ -72,9 +89,64 @@ public class UIManager : MonoBehaviour
         showColorPopUp = active;
     }
 
+    public void ShowOrHideOtherPopUp() 
+    {
+        showOtherPopUp = !showOtherPopUp;
+        ShowOtherPopUp(showOtherPopUp);
+    }
+
+    public void ShowOtherPopUp(bool active) 
+    {
+        otherPopUp.SetActive(active);
+        showOtherPopUp = active;
+    }
+
     // ref on color picker (event listener)
     public void ChangeColorCircle(Color color) {
         colorCircle.color = color;
+    }
+
+    public void ChangeCreateButtonToSelectedMode(bool selected) 
+    {
+        if(selected) 
+        {
+            createImage.sprite = selectedCreateSprite;
+        }
+        else 
+        {
+            createImage.sprite = unselectedCreateSprite;
+        }
+    }
+
+    public void ChangeFormButtonToSelectedMode(bool selected) 
+    {
+        if(selected) 
+        {
+            formImage.sprite = selectedFormSprite;
+        }
+        else 
+        {
+            formImage.sprite = unselectedFormSprite;
+        }
+    }
+
+    public void ChangeEraseButtonToSelectedMode(bool selected) 
+    {
+        if(selected) 
+        {
+            eraseImage.sprite = selectedEraseSprite;
+        }
+        else 
+        {
+            eraseImage.sprite = unselectedEraseSprite;
+        }
+    }
+
+    private void GetImageComponentsOfButtons() 
+    {
+        createImage = createButton.gameObject.GetComponent<Image>();
+        formImage = formButton.gameObject.GetComponent<Image>();
+        eraseImage = eraseButton.gameObject.GetComponent<Image>();
     }
 
     private void AddButtonListeners() 

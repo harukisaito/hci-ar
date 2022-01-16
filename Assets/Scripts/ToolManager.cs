@@ -44,23 +44,26 @@ public class ToolManager : MonoBehaviour
     private void Create_Enter()
     {
         print("entered create");
-        spawnManager.AddListeners();;
+        spawnManager.AddCreateListeners();
+        UIManager.Instance.ChangeCreateButtonToSelectedMode(true);
     }
     private void Create_Exit()
     {
         print("exited create");
-        spawnManager.RemoveListeners();
+        spawnManager.RemoveCreateListeners();
+        UIManager.Instance.ChangeCreateButtonToSelectedMode(false);
     }
 
 
     private void Form_Enter()
     {
         print("entered Form");
-
+        UIManager.Instance.ChangeFormButtonToSelectedMode(true);
     }
     private void Form_Exit()
     {
         print("exited Form");
+        UIManager.Instance.ChangeFormButtonToSelectedMode(false);
     }
 
 
@@ -80,10 +83,14 @@ public class ToolManager : MonoBehaviour
     private void Erase_Enter()
     {
         print("entered Erase");
+        spawnManager.AddEraseListeners();
+        UIManager.Instance.ChangeEraseButtonToSelectedMode(true);
     }
     private void Erase_Exit()
     {
         print("exited Erase");
+        spawnManager.RemoveEraseListeners();
+        UIManager.Instance.ChangeEraseButtonToSelectedMode(false);
     }
 
 
@@ -94,6 +101,7 @@ public class ToolManager : MonoBehaviour
     private void Other_Exit()
     {
         print("exited Other");
+        UIManager.Instance.ShowOtherPopUp(false);
     }
 
 

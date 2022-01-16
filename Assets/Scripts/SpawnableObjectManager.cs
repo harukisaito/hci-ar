@@ -8,6 +8,9 @@ public class SpawnableObjectManager : MonoBehaviour
 
     public Transform spawnedObjContainer;
     [SerializeField] private GameObject spawnablePrefab;
+    // [SerializeField] private GameObject spawnableCubePrefab;
+    // [SerializeField] private GameObject spawnableSpherePrefab;
+    // [SerializeField] private GameObject spawnableCylinderPrefab;
 
     private List<SpawnableObject> spawnedObjects = new List<SpawnableObject>();
     private SpawnableObject spawnedObject;
@@ -67,9 +70,10 @@ public class SpawnableObjectManager : MonoBehaviour
     }
 
     public void DeleteObjects() {
-        foreach(var obj in spawnedObjects) {
-            Destroy(obj);
+        foreach(SpawnableObject obj in spawnedObjects) {
+            Destroy(obj.gameObject);
         }
+
         SaveSystem.DeleteData();
     }
 

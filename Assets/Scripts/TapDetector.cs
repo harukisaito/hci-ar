@@ -2,20 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
 
 public class TapDetector : MonoBehaviour
 {
     public UnityAction<TapData> OnTap;
 
-    // [SerializeField] private ARRaycastManager raycastManager;
-
-    // private List<ARRaycastHit> hits = new List<ARRaycastHit>();
-    // private bool spawnedObject;
-
     public void TapUpdate()
     {
         if(Input.touchCount == 0) {
+            return;
+        }
+
+        if(EventSystem.current.IsPointerOverGameObject()) 
+        {
             return;
         }
 

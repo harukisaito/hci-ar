@@ -22,6 +22,8 @@ public class InputManager : MonoBehaviour
     }
 
     private void Start() {
+        // Input.simulateMouseWithTouches = true;
+        
         inputType = Inputs.Click;
         SetInputUIText();
     }
