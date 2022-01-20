@@ -6,7 +6,7 @@ public class ColorManager : MonoBehaviour
 {
     public static ColorManager Instance;
 
-    private Color currentColor;
+    public Color currentColor;
 
     private void Awake() 
     {
@@ -18,6 +18,11 @@ public class ColorManager : MonoBehaviour
         {
             Destroy(this);
         }
+    }
+
+    private void Start()
+    {
+        ChangeCurrentColor(new Color(0.6933962f, 1f, 0.937255f, 1f));
     }
 
     // ref on color picker (event listener)

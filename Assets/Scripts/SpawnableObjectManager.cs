@@ -13,6 +13,8 @@ public class SpawnableObjectManager : MonoBehaviour
     // [SerializeField] private GameObject spawnableCylinderPrefab;
 
     private List<SpawnableObject> spawnedObjects = new List<SpawnableObject>();
+    private Queue<GameObject> spawnedObjectsQueue = new Queue<GameObject>();
+
     private SpawnableObject spawnedObject;
 
     private void Awake() {
@@ -29,8 +31,14 @@ public class SpawnableObjectManager : MonoBehaviour
     }
 
     public GameObject SpawnObject(Vector3 pos, Quaternion rot) {
-        GameObject spawnedGameobject = 
-            Instantiate(spawnablePrefab, pos, rot, spawnedObjContainer);
+        GameObject spawnedGameobject = GetObject();
+
+        spawnedGameobject.transform.position = pos;
+        spawnedGameobject.transform.rotation = rot;
+
+        GameObject spawnedMeshGameObject = spawnedGameobject.transform.GetChild(0).gameObject;
+        MeshRenderer spawnedMesh = spawnedMeshGameObject.GetComponent<MeshRenderer>();
+        spawnedMesh.material.color = ColorManager.Instance.currentColor;
 
         spawnedObject = spawnedGameobject.GetComponent<SpawnableObject>();
         spawnedObject.transform.GetChild(0).tag = "Cube";
@@ -77,4 +85,46 @@ public class SpawnableObjectManager : MonoBehaviour
         SaveSystem.DeleteData();
     }
 
+        private GameObject GetObject() {
+        GameObject obj;
+
+        if(QueueIsEmpty()) {
+            //print("spawning new");
+            obj = SpawnNewObject();
+        } 
+        else {
+            //print("getting old");
+            obj = GetObjectFromQueue();
+        }
+
+        return obj;
+    }
+
+    public void DestroyObject(GameObject obj) {
+        print(obj);
+        AddObjectToQueue(obj);
+    }
+    
+    private GameObject SpawnNewObject() {
+        GameObject obj = Instantiate(spawnablePrefab, spawnedObjContainer);
+
+        return obj;
+    }
+
+
+    private bool QueueIsEmpty() {
+        return spawnedObjectsQueue.Count == 0;
+    }
+
+    private void AddObjectToQueue(GameObject obj) {
+        obj.SetActive(false);
+        spawnedObjectsQueue.Enqueue(obj);
+        spawnedObjects.Remove(obj.GetComponent<SpawnableObject>());
+    }
+
+    private GameObject GetObjectFromQueue() {
+        GameObject obj = spawnedObjectsQueue.Dequeue();
+        obj.SetActive(true);
+        return obj;
+    } 
 }

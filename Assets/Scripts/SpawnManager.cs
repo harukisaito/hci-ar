@@ -81,7 +81,8 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
-        Destroy(data.ClickedObj);
+        SpawnableObjectManager.Instance.DestroyObject(data.ClickedObj.transform.parent.gameObject);
+        // data.clickedobj is only the cube not the entire prefab
     }
 
     private void EraseObject(ClickData data) 
@@ -91,7 +92,8 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
-        Destroy(data.ClickedObj);
+        SpawnableObjectManager.Instance.DestroyObject(data.ClickedObj.transform.parent.gameObject);
+        // data.clickedobj is only the cube not the entire prefab
     }
 
     public void AddEraseListeners() 

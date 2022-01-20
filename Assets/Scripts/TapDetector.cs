@@ -11,11 +11,12 @@ public class TapDetector : MonoBehaviour
 
     public void TapUpdate()
     {
+
         if(Input.touchCount == 0) {
             return;
         }
-
-        if(EventSystem.current.IsPointerOverGameObject()) 
+        
+        if (IsPointerOverUIObject())
         {
             return;
         }
@@ -36,6 +37,24 @@ public class TapDetector : MonoBehaviour
                 );
             }
         }
+    }
+
+    private bool IsPointerOverUIObject()
+    {
+        // get current pointer position and raycast it
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+
+        // check if the target is in the UI
+        foreach (RaycastResult r in results) {
+            bool isUIClick = r.gameObject.transform.IsChildOf(UIManager.Instance.createButton.transform); 
+            if (isUIClick) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void SendTap(Vector3 pos, Quaternion rot, Vector3 normal, GameObject clickedObj)
