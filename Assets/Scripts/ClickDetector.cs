@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ClickDetector : MonoBehaviour
 {
@@ -47,9 +48,13 @@ public class ClickDetector : MonoBehaviour
 
         // check if the target is in the UI
         foreach (RaycastResult r in results) {
-            bool isUIClick = r.gameObject.transform.IsChildOf(UIManager.Instance.createButton.transform); 
-            if (isUIClick) {
-                return true;
+            bool isUIClick;
+            foreach(Button button in UIManager.Instance.buttons) 
+            {
+                isUIClick = r.gameObject.transform.IsChildOf(button.transform); 
+                if (isUIClick) {
+                    return true;
+                }
             }
         }
         return false;

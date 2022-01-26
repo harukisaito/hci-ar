@@ -33,7 +33,11 @@ public class ToolManager : MonoBehaviour
         }
 
         stateMachine = new StateMachine<Tools>(this); 
-        stateMachine.ChangeState(Tools.None); 
+    }
+
+    private void Start() 
+    {
+        ChangeTool(Tools.Create);
     }
 
     public void ChangeTool(Tools tool) 

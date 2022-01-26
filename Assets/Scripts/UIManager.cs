@@ -37,6 +37,9 @@ public class UIManager : MonoBehaviour
     [Header("Color")] 
     public Image colorCircle;
 
+    [HideInInspector]
+    public Button[] buttons;
+
 
     private Image createImage;
     private Image formImage;
@@ -63,6 +66,7 @@ public class UIManager : MonoBehaviour
         ShowOtherPopUp(false);
         AddButtonListeners();
         GetImageComponentsOfButtons();
+        FillButtonArray();
     }
 
     public void SetInputText(string text) {
@@ -156,6 +160,16 @@ public class UIManager : MonoBehaviour
         colorButton.onClick.AddListener(ChangeToColorTool);
         eraseButton.onClick.AddListener(ChangeToEraseTool);
         otherButton.onClick.AddListener(ChangeToOtherTool);
+    }
+
+    private void FillButtonArray()
+    {
+        buttons = new Button[5];
+        buttons[0] = createButton;
+        buttons[1] = formButton;
+        buttons[2] = colorButton;
+        buttons[3] = eraseButton;
+        buttons[4] = otherButton;
     }
 
     private void ChangeToCreateTool() 
