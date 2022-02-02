@@ -77,6 +77,7 @@ public class ClickDetector : MonoBehaviour
             return;
         }
 
+
         OnClick.Invoke(clickData);
     }
 }

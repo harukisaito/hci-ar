@@ -100,8 +100,18 @@ public class SpawnableObjectManager : MonoBehaviour
         return obj;
     }
 
+    public void DestroyObjectAfterDelay(float delay, GameObject obj) 
+    {
+        StartCoroutine(DestroyObjectAfterDelayCoroutine(delay, obj));
+    }
+
     public void DestroyObject(GameObject obj) {
-        print(obj);
+        AddObjectToQueue(obj);
+    }
+
+    private IEnumerator DestroyObjectAfterDelayCoroutine(float delay, GameObject obj) 
+    {
+        yield return new WaitForSeconds(delay);
         AddObjectToQueue(obj);
     }
     

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnEffect : MonoBehaviour
+public class AnimationEffect : MonoBehaviour
 {
-    public AnimationCurve scaleCurve;
+    public AnimationCurve animationCurve;
 
     public void ApplyAnimationEffect(GameObject obj) {
         StartCoroutine(ChangeScale(obj));
@@ -13,8 +13,8 @@ public class SpawnEffect : MonoBehaviour
     private IEnumerator ChangeScale(GameObject obj) {
         float objScale = obj.transform.localScale.x;
         float timer = 0;
-        while(timer < 1) {
-            obj.transform.localScale = objScale * Vector3.one * scaleCurve.Evaluate(timer);
+        while(timer < 0.2f) {
+            obj.transform.localScale = objScale * Vector3.one * animationCurve.Evaluate(timer);
 
             timer += Time.deltaTime;
             yield return null;

@@ -6,7 +6,8 @@ using UnityEngine.XR.ARFoundation;
 
 public class SpawnManager : MonoBehaviour
 {   
-    public SpawnEffect spawnEffect;
+    public AnimationEffect spawnEffect;
+    public AnimationEffect deleteEffect;
     private float throwForce;
 
     private void Start() {
@@ -48,6 +49,7 @@ public class SpawnManager : MonoBehaviour
         {
             spawnPos = data.Position;
         }
+
 
         GameObject obj = SpawnableObjectManager.Instance.SpawnObject(spawnPos, data.Rotation);
         obj.transform.localScale = Vector3.one;
@@ -91,9 +93,15 @@ public class SpawnManager : MonoBehaviour
         {
             return;
         }
+        
+        GameObject cubePrefab = data.ClickedObj.transform.parent.gameObject;
 
-        SpawnableObjectManager.Instance.DestroyObject(data.ClickedObj.transform.parent.gameObject);
+        SpawnableObjectManager.Instance.DestroyObjectAfterDelay(
+            0.2f, 
+            cubePrefab
+        );
         // data.clickedobj is only the cube not the entire prefab
+        deleteEffect.ApplyAnimationEffect(cubePrefab);
     }
 
     public void AddEraseListeners() 

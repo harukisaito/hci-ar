@@ -6,6 +6,7 @@ public class ColorManager : MonoBehaviour
 {
     public static ColorManager Instance;
 
+    public AnimationEffect colorEffect;
     public Color currentColor;
 
     private void Awake() 
@@ -40,6 +41,9 @@ public class ColorManager : MonoBehaviour
 
         MeshRenderer mesh = data.ClickedObj.GetComponent<MeshRenderer>();
         mesh.material.color = currentColor;
+        
+        GameObject cubePrefab = data.ClickedObj.transform.parent.gameObject;
+        colorEffect.ApplyAnimationEffect(cubePrefab);
     }
 
     private void ChangeColor(ClickData data) 
@@ -48,9 +52,12 @@ public class ColorManager : MonoBehaviour
         {
             return;
         }
-
         MeshRenderer mesh = data.ClickedObj.GetComponent<MeshRenderer>();
         mesh.material.color = currentColor;
+
+        GameObject cubePrefab = data.ClickedObj.transform.parent.gameObject;
+        colorEffect.ApplyAnimationEffect(cubePrefab);
+
     }
 
     public void AddListeners() 
