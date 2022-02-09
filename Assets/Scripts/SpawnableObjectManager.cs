@@ -85,7 +85,7 @@ public class SpawnableObjectManager : MonoBehaviour
         SaveSystem.DeleteData();
     }
 
-        private GameObject GetObject() {
+    private GameObject GetObject() {
         GameObject obj;
 
         if(QueueIsEmpty()) {

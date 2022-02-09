@@ -23,11 +23,11 @@ public class InputManager : MonoBehaviour
 
     private void Start() {
         // Input.simulateMouseWithTouches = true;
-        #if UNITY_EDITOR
-            inputType = Inputs.Click;
-        #else
+        // #if UNITY_EDITOR
+            // inputType = Inputs.Click;
+        // #else
             inputType = Inputs.Tap;
-        #endif
+        // #endif
 
         SetInputUIText();
     }

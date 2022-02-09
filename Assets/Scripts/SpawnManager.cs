@@ -33,6 +33,7 @@ public class SpawnManager : MonoBehaviour
         }
 
         GameObject obj = SpawnableObjectManager.Instance.SpawnObject(spawnPos, data.Rotation);
+        obj.transform.localScale = Vector3.one * 0.1f;
         spawnEffect.ApplyAnimationEffect(obj);
     }
 
@@ -49,7 +50,6 @@ public class SpawnManager : MonoBehaviour
         {
             spawnPos = data.Position;
         }
-
 
         GameObject obj = SpawnableObjectManager.Instance.SpawnObject(spawnPos, data.Rotation);
         obj.transform.localScale = Vector3.one;
@@ -83,8 +83,14 @@ public class SpawnManager : MonoBehaviour
             return;
         }
 
-        SpawnableObjectManager.Instance.DestroyObject(data.ClickedObj.transform.parent.gameObject);
-        // data.clickedobj is only the cube not the entire prefab
+        GameObject cubePrefab = data.ClickedObj.transform.parent.gameObject;
+
+        SpawnableObjectManager.Instance.DestroyObjectAfterDelay(
+            0.2f, 
+            cubePrefab
+        );        // data.clickedobj is only the cube not the entire prefab
+
+        deleteEffect.ApplyAnimationEffect(cubePrefab);
     }
 
     private void EraseObject(ClickData data) 

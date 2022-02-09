@@ -19,6 +19,8 @@ public class AnimationEffect : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
+
+        obj.transform.localScale = objScale * Vector3.one * animationCurve.Evaluate(0.2f);
     }
 
     public void ApplyVibrationEffectAfterDelay(float delay) {
